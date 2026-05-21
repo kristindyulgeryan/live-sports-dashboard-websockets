@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "./db/db.js";
 import { matchRouter } from "./routes/matches.js";
 import { attachWebSocketServer } from "./ws/server.js";
+import { securityMiddleware } from "./arcjet.js";
 
 const HOST = process.env.HOST || "0.0.0.0";
 const PORT = Number(process.env.PORT || 8000);
@@ -12,6 +13,7 @@ const app = express();
 const server = http.createServer(app);
 
 // JSON middleware
+app.use(securityMiddleware());
 app.use(express.json());
 
 const { broadcastMatchCreated } = attachWebSocketServer(server);
