@@ -43,7 +43,7 @@ matchRouter.post("/", async (req, res) => {
   if (!parsed.success) {
     return res.status(400).json({
       error: "Invalid payload.",
-      details: JSON.stringify(parsed.error),
+      details: parsed.error.issue,
     });
   }
 
@@ -62,15 +62,16 @@ matchRouter.post("/", async (req, res) => {
       })
       .returning();
 
-    if (res.app.locals.broadcastMatchCreated) {
-      res.app.locals.broadcastMatchCreated(event);
+    if (req.app.locals.broadcastMatchCreated) {
+      req.app.locals.broadcastMatchCreated(event);
     }
 
     res.status(201).json({ data: event });
   } catch (e) {
-    res.status(500).json({
+    console.error("!!! ИСТИНСКАТА ГРЕШКА Е ТУК !!!", e);
+    return res.status(500).json({
       error: "Failed to create match.",
-      details: JSON.stringify(e),
+      etails: e instanceof Error ? e.message : String(e),
     });
   }
 });
