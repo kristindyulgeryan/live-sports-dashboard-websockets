@@ -12,10 +12,10 @@ function subscribe(matchId, socket) {
 
 function unsubscribe(matchId, socket) {
   const subscribers = matchSubscribers.get(matchId);
-  if (!subscribers.size) return;
+  if (!subscribers.size || subscribers.size === 0) return;
   subscribers.delete(socket);
 
-  if (subscribers === 0) {
+  if (subscribers.size === 0) {
     matchSubscribers.delete(matchId);
   }
 }
