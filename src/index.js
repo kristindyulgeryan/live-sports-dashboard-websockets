@@ -13,12 +13,15 @@ const PORT = Number(process.env.PORT || 8000);
 const app = express();
 const server = http.createServer(app);
 
-// JSON middleware
-app.use(securityMiddleware());
 app.use(express.json());
+// JSON middleware
 
-const { broadcastMatchCreated } = attachWebSocketServer(server);
+app.use(securityMiddleware());
+
+const { broadcastMatchCreated, broadcastCommentary } =
+  attachWebSocketServer(server);
 app.locals.broadcastMatchCreated = broadcastMatchCreated;
+app.locals.broadcastCommentary = broadcastCommentary;
 
 app.use("/matches", matchRouter);
 app.use("/matches/:id/commentary", commentaryRouter);

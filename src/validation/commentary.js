@@ -14,7 +14,7 @@ export const listCommentaryQuerySchema = z.object({
  * message (required), metadata (record), and tags (array of strings)
  */
 export const createCommentarySchema = z.object({
-  minutes: z.number().int().nonnegative(),
+  minute: z.number().int().nonnegative(),
   sequence: z.number().int().optional(),
   period: z.string(),
   eventType: z.string().optional(),
